@@ -57,7 +57,12 @@ func (c *Client) NewEnforcer(ctx context.Context, config Config) (*Enforcer, err
 		if err != nil {
 			return enforcer, err
 		}
+
 		adapterHandler = adapterReply.Handler
+
+		if adapterReply.Handler > 0 {
+			adapterHandler = 0
+		}
 	}
 
 	e, err := c.remoteClient.NewEnforcer(ctx, &pb.NewEnforcerRequest{
@@ -67,7 +72,12 @@ func (c *Client) NewEnforcer(ctx context.Context, config Config) (*Enforcer, err
 	if err != nil {
 		return enforcer, err
 	}
+
 	enforcer.handler = e.Handler
+
+	if e.Handler > 0 {
+		enforcer.handler = 0
+	}
 
 	return enforcer, nil
 }
