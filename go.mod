@@ -1,4 +1,4 @@
-module github.com/casbin/casbin-go-client
+module github.com/mojila/casbin-go-client
 
 go 1.15
 
