@@ -47,7 +47,8 @@ func (c *Client) NewEnforcer(ctx context.Context, config Config) (*Enforcer, err
 	var adapterHandler int32 = -1
 	enforcer := &Enforcer{client: c, handler: 0}
 
-	err := enforcer.LoadPolicy(ctx)
+	testreq := []interface{}{"domain", "subject", "object", "action"}
+	_, err := enforcer.Enforce(ctx, testreq...)
 	// If enforcer already initialized
 	if err == nil {
 		return enforcer, nil
