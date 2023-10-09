@@ -37,6 +37,13 @@ type Enforcer struct {
 	client  *Client
 }
 
+func (c *Client) DefaultEnforcer() *Enforcer {
+	return &Enforcer{
+		client:  c,
+		handler: 0,
+	}
+}
+
 // NewEnforcer creates an enforcer via file or DB.
 // File:
 // e := casbin.NewEnforcer("path/to/basic_model.conf", "path/to/basic_policy.csv")
@@ -59,10 +66,6 @@ func (c *Client) NewEnforcer(ctx context.Context, config Config) (*Enforcer, err
 		}
 
 		adapterHandler = adapterReply.Handler
-
-		if adapterReply.Handler > 0 {
-			adapterHandler = 0
-		}
 	}
 
 	e, err := c.remoteClient.NewEnforcer(ctx, &pb.NewEnforcerRequest{
@@ -74,10 +77,6 @@ func (c *Client) NewEnforcer(ctx context.Context, config Config) (*Enforcer, err
 	}
 
 	enforcer.handler = e.Handler
-
-	if e.Handler > 0 {
-		enforcer.handler = 0
-	}
 
 	return enforcer, nil
 }
