@@ -45,14 +45,7 @@ type Enforcer struct {
 // e := casbin.NewEnforcer("path/to/basic_model.conf", a)
 func (c *Client) NewEnforcer(ctx context.Context, config Config) (*Enforcer, error) {
 	var adapterHandler int32 = -1
-	enforcer := &Enforcer{client: c, handler: 0}
-
-	testreq := []interface{}{"domain", "subject", "object", "action"}
-	_, err := enforcer.Enforce(ctx, testreq...)
-	// If enforcer already initialized
-	if err == nil {
-		return enforcer, nil
-	}
+	enforcer := &Enforcer{client: c}
 
 	// Maybe it does not need NewAdapter.
 	if config.DriverName != "" && config.ConnectString != "" {
